@@ -1,0 +1,31 @@
+¨*.pdf:Zone.Identifier"
+*bak*
+*.o
+*.so
+*.dll
+
+# Cache files
+.cache/
+
+# Log files
+*.log
+
+# Visual studio code
+.vscode/*
+
+# R
+.Rproj.user
+.Rhistory
+
+# Python
+**/__pycache__
+.ipynb_checkpoints
+
+# Environments
+.env
+.venv
+env/
+venv/
+ENV/
+env.bak/
+venv.bak/

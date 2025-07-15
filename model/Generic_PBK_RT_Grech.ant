@@ -1,0 +1,215 @@
+
+# Arrhenius temperatures function 
+function KT(T, TR, TA)
+    exp((TA / TR) - (TA / T))
+end
+
+model Generic_PBK_RT_Grech()
+
+    # Environmental condition
+    Temperature = 10            # Ambient water temperature [celsius]
+    TA = 6930                   # Arrhenius temperature in Kelvin, for scaling rates
+    TR_DEB = 293.65             # Reference temperature for DEB scaling [K]
+    TR_Fcard = 279.15           # Reference T for cardiac output [K]
+    TR_VO2 = 283.15             # Reference T for VO2 scaling [K]
+    f_cst = 1                   # Food level (1 = ad-libitum, 0 = starvation) [-]
+
+    # Physiological parameters
+    Bw_i = 35                   # Body weight initial (fresh weight) [g]
+    Bw_Fcard_ref = 270.1        # Body weight of reference for F_card [g]
+    Bw_VO2_ref = 1000           # Body weight of reference for VO2 [g]
+
+    ## DEB growth model parameter
+    DEB_v = 0.38                # Energy conductance [mm/d]
+    DEB_g = 0.196               # Energy investment ratio (SU) [-]
+    DEB_KM = 0.027              # Somatic maintenance rate coefficient [1/d]
+    DEB_EHm = 452               # Energy at State of maturity at metamorphosis [J]
+    DEB_EHb = 52                # Energy at State of maturity at birth [J]
+    DEB_shape = 0.113           # Shape factor (dimensionless) for surface/volume scaling [-]
+    a_BW_L = 0.0051             # Allometric coefficient to convert length (cm) to weight (g) - a relation BW(g)=F(L(cm))
+    b_BW_L = 3.3513             # Allometric exponent for length-weight relationship - b relation BW(g)=F(L(cm))
+
+    ## Effective respiratory volume and cardiac output
+    F_card_ref  = 28.5          # Reference cardiac output [mL/min/g]
+    V_O2_ref    = 3.26          # Reference oxygen consuption rate [mg/d/g]
+    O2_EE       = 0.71          # Oxygen extraction efficiency of (fraction of extracted water) [-] - default: 71% proposed by Erickson, 1990
+    Sat         = 0.90          # Fraction of dissolved oxygen saturation in water [-]
+    frac_art_ven = 1/3          # Fraction of arterial blood vs. venous blood [-]
+
+    ## Compartment volumes relative to BW
+    sc_blood = 0.0527           # blood volume as fraction of BW [L/kg]
+    sc_gonads = 0.018           # gonads volume as fraction of BW [L/kg]
+    sc_brain = 0.0049           # brain volume as fraction of BW [L/kg]
+    sc_liver = 0.0146           # liver volume as fraction of BW [L/kg]
+    sc_fat = 0.0797             # fat volume as fraction of BW [L/kg]
+    sc_skin = 0.10              # skin volume as fraction of BW [L/kg]
+    sc_GIT = 0.099              # GI tract volume as fraction of BW [L/kg]
+    sc_kidney = 0.0076          # kidney volume as fraction of BW [L/kg]
+    sc_rp = 0.0257              # richly perfused tissue volume as fraction of BW [L/kg]
+    sc_pp := (1 - sc_blood - sc_gonads - sc_brain - sc_liver - sc_fat - sc_skin - sc_GIT - sc_kidney -sc_rp) # poorly perfused tissue volume as fraction of BW (residual) [L/kg]
+
+    ## Fractional blood flows
+    frac_gonads = 0.0138        # Fraction of arterial blood flow to gonads
+    frac_brain = 0.018          # Fraction of arterial blood flow to brain
+    frac_liver = 0.0158         # Fraction of arterial blood flow to liver
+    frac_fat = 0.0059           # Fraction of arterial blood flow to fat
+    frac_skin = 0.0570          # Fraction of arterial blood flow to skin
+    frac_GIT = 0.1759           # Fraction of arterial blood flow to GI tract
+    frac_kidney = 0.0817        # Fraction of arterial blood flow to kidney
+    frac_rp = 0.0952            # Fraction of arterial blood flow to richly perfused tissues
+    frac_pp := (1 - frac_gonads - frac_brain - frac_liver - frac_fat - frac_skin - frac_GIT - frac_kidney - frac_rp)    # Remaining flow to poorly perfused tissues
+
+    # Chemical parameters 
+    fub_blood = 1               # Fraction of unbound chemical in blood (bioavailable, between 0 and 1)
+
+    # Partition coefficients
+    PC_bw = 30478.949896        # Partition coefficient blood:water [-]
+    PC_liver = 9.315661         # Partition coefficient liver:blood [-]
+    PC_gonads = 11.654918       # Partition coefficient gonads:blood [-]
+    PC_brain  = 15.112057       # Partition coefficient brain:blood [-]
+    PC_fat = 195.007317         # Partition coefficient fat:blood [-]
+    PC_skin = 6.003432          # Partition coefficient skin:blood [-]
+    PC_GIT = 59.620090          # Partition coefficient GIT:blood [-]
+    PC_kidney = 10.764761       # Partition coefficient kidney:blood [-]
+    PC_rp = 14.014875           # Partition coefficient richly perfused:blood [-]
+    PC_pp = 6.210450            # Partition coefficient poorly perfused:blood [-]
+
+    # VENOUS RETURN FRACTIONS
+    a_Fpp = 0.4                 # Fraction of PPT blood going to venous [-]
+    a_Fs = 0.1                  # Fraction of skin blood going to venous [-]
+
+    # Oral absorption  parameters
+    Ku = (0.58*0.83)/(1-0.58)   # Uptake rate constant/diffusion coefficient from lumen to GIT wall [1/d]
+    frac_abs = 0                # Absorption fraction [-]
+
+    # Metabolism
+    Km = 0                      # Michaelis constant (microg/ml)
+    Vmax = 0                    # Max metabolic rate (microg/d/mL)
+    Cl_liver = 0                # Liver clearance (mL/d/mL)
+    rate_plasma = 0             # Plasma metabolism rate (mg/d/g)
+
+    # Excretion
+    Ke_bile = 1.5               # First-order bile excretion rate [1/d]
+    Ke_urine = 0                # Urine elimination rate [1/d]
+    Ke_water = 0                # Water elimination rate (gills) [1/d]
+    K_BG = 0                    # Transfer rate from bile to gut lumen [1/d]
+    Ke_feces = 0.83             # Fecal excretion rate (1/d)
+
+    # Temperature (Converts input temperature to Kelvin and Celsius)
+    TC_c = Temperature           # (degree C)
+    TC_k := TC_c + 273.15        # (degree K) 
+
+    # body weight : DEB growth model anisomorphic (Calculates temperature-scaled growth rate (dL) and resulting body weight (BW) using Dynamic Energy Budget (DEB) theory.)
+    #DEB_v_t := DEB_v  * KT(TC_k, TR_DEB, TA)           # [mm/d]
+    #DEB_Lm := DEB_v / (DEB_KM * DEB_g)                 # [mm]
+    #DEB_M := (DEB_EHm / DEB_EHb)^(1/3)                 # EHm and EHb = J
+    #dL := (DEB_v_t / (3 * (f_cst + DEB_g))) * (f_cst * DEB_M - (L/DEB_Lm)) # Length increment based on DEB growth
+    #BW := a_BW_L *((L/10) / DEB_shape ) ^ b_BW_L       # BW = g; a = g/cm;  L = mm --> /10 = cm
+    BW = 35
+
+    # Blood flow (mL/d) - Calculates organ-specific blood flows using allometric scaling.
+    F_card_g := F_card_ref * KT(TC_k, TR_Fcard, TA) * (BW/Bw_Fcard_ref)^(-0.1) # cardiac output [mL/d/g]
+    F_card := F_card_g * BW             # [mL/d]
+    F_liver := frac_liver * F_card
+    F_gonads := frac_gonads * F_card
+    F_brain := frac_brain * F_card
+    F_fat := frac_fat * F_card
+    F_skin := frac_skin * F_card
+    F_GIT := frac_GIT * F_card
+    F_kidney := frac_kidney * F_card
+    F_rp := frac_rp * F_card
+    F_pp := F_card - (F_liver + F_gonads + F_brain + F_fat + F_skin + F_GIT + F_kidney + F_rp)
+
+    # Effective respiratory volume (mL/d)
+    # Computes water intake rate based on oxygen demand and respiratory uptake rate
+    V_O2_g := V_O2_ref * KT(TC_k, TR_VO2, TA) * (BW/Bw_VO2_ref)^(-0.1) # [mg/d/g]
+    V_O2 := V_O2_g * BW                                 # [mg/d]
+    C_O2_water := ((-0.24 * TC_c + 14.04) * Sat) / 10^3 # [mg/mL]
+    F_water := V_O2/ (O2_EE * C_O2_water)               # [mL/d]
+    Kx := min(F_water, F_card * PC_bw)                  # [mL/d]
+
+    Vmax_sc := Vmax * sc_liver * BW
+    Cl_liver_sc := Cl_liver * sc_liver * BW
+    rate_plasma_sc := rate_plasma * BW
+
+    # Compartments
+    compartment Art := sc_blood * BW  * frac_art_ven   # Arterial blood [L]
+    compartment Ven := sc_blood * BW - (Art)           # Venous blood [L]
+    compartment Liver := sc_liver * BW                 # Liver [L]
+    compartment Gonads := sc_gonads * BW               # Gonads [L]
+    compartment Brain := sc_brain * BW                 # Brain [L]
+    compartment Fat := sc_fat * BW                     # Fat [L]
+    compartment Skin := sc_skin * BW                   # Skin [L]
+    compartment GIT := sc_GIT * BW                     # GIT [L]
+    compartment Kidney := sc_kidney * BW               # Kidney [L]
+    compartment Rich := sc_rp * BW                     # Richly perfused tissue [L]
+    compartment Poor := BW - (Art + Ven + Liver + Gonads + Brain + Fat + Skin + GIT + Kidney + Rich)  # Poorly perfused tissue [L]
+    compartment GIT_lumen                              # GIT Lumen [L]
+    compartment Bile                                   # Bile [L]
+    compartment Feces                                  # Feces [L]
+    compartment Urine                                  # Urine [L]
+    compartment Water = 1000                           # Water [L]
+    compartment Gills                                  # Gills [L]
+
+    # Species
+    substanceOnly species Q_art in Art = 0
+    substanceOnly species Q_ven in Ven = 0
+    substanceOnly species Q_met_plasma in Ven = 0
+    substanceOnly species Q_liver in Liver = 0
+    substanceOnly species Q_met_liver in Liver = 0
+    substanceOnly species Q_gonads in Gonads = 0
+    substanceOnly species Q_brain in Brain = 0
+    substanceOnly species Q_fat in Fat = 0
+    substanceOnly species Q_skin in Skin = 0
+    substanceOnly species Q_GIT in GIT = 0
+    substanceOnly species Q_lumen_GIT in GIT_lumen = 0
+    substanceOnly species Q_kidney in Kidney = 0
+    substanceOnly species Q_rich in Rich = 0
+    substanceOnly species Q_poor in Poor = 0
+    substanceOnly species Q_bile in Bile = 0
+    substanceOnly species Q_urine in Urine = 0
+    substanceOnly species Q_feces in Feces = 0
+    substanceOnly species Q_water in Water = 0
+    substanceOnly species Q_excret_gills in Gills = 0
+
+    # Water exchange (Gills)
+    Q_ven -> Q_excret_gills; Kx * (Q_ven/Ven) * fub_blood / PC_bw
+    Q_water -> Q_ven; Kx * (Q_water/Water)
+
+    Q_lumen_GIT -> Q_GIT; Ku * Q_lumen_GIT
+    Q_lumen_GIT -> Q_feces; Q_lumen_GIT * Ke_feces
+    Q_GIT -> Q_liver; F_GIT * (Q_GIT/GIT) / PC_GIT
+
+    Q_liver -> Q_bile; Ke_bile * Q_liver
+    Q_kidney -> Q_urine; Ke_urine * Q_kidney
+
+    Q_bile -> Q_lumen_GIT; Q_bile * K_BG
+
+    Q_art -> Q_GIT; F_GIT * (Q_art/Art)
+    Q_art -> Q_brain; F_brain * (Q_art/Art)
+    Q_art -> Q_fat; F_fat * (Q_art/Art)
+    Q_art -> Q_skin; F_skin * (Q_art/Art)
+    Q_art -> Q_kidney; F_kidney * (Q_art/Art)
+    Q_art -> Q_liver; F_liver  * (Q_art/Art)
+    Q_art -> Q_gonads; F_gonads * (Q_art/Art)
+    Q_art -> Q_rich; F_rp * (Q_art/Art)
+    Q_art -> Q_poor; F_pp * (Q_art/Art)
+
+    Q_ven -> Q_art; F_card * (Q_ven/Ven)
+    Q_brain -> Q_ven; F_brain * (Q_brain/Brain) / PC_brain
+    Q_liver -> Q_ven; (F_liver + F_rp + F_gonads + F_GIT) * (Q_liver/Liver) / PC_liver
+    Q_fat -> Q_ven; F_fat * (Q_fat/Fat) / PC_fat
+    Q_kidney -> Q_ven; (F_kidney + ((1 - a_Fpp) * F_pp) + ((1 - a_Fs) * F_skin)) * ((Q_kidney/Kidney) / PC_kidney)
+    Q_poor -> Q_ven; a_Fpp * F_pp  * (Q_poor/Poor) / PC_pp
+    Q_skin -> Q_ven; a_Fs * F_skin * (Q_skin/Skin) / PC_skin
+
+    Q_gonads -> Q_liver; F_gonads * (Q_gonads/Gonads) / PC_gonads
+    Q_rich -> Q_liver; F_rp * (Q_rich/Rich) / PC_rp
+    Q_poor -> Q_kidney; (1-a_Fpp) * F_pp * (Q_poor/Poor) / PC_pp
+    Q_skin -> Q_kidney; (1-a_Fs) * F_skin * (Q_skin/Skin) / PC_skin
+
+    # Metabolism in plasma and liver
+    Q_ven -> Q_met_plasma; rate_plasma_sc * Q_ven
+    Q_liver -> Q_met_liver; Cl_liver_sc * (Q_liver/Liver) / PC_liver
+
+end

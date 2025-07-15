@@ -1,0 +1,1412 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<sbml xmlns="http://www.sbml.org/sbml/level3/version2/core" level="3" version="2">
+  <model metaid="Generic_PBK_RT_Grech" id="Generic_PBK_RT_Grech" substanceUnits="MicroGM" timeUnits="DAY" volumeUnits="MilliL" extentUnits="MicroGM">
+    <listOfFunctionDefinitions>
+      <functionDefinition id="KT">
+        <math xmlns="http://www.w3.org/1998/Math/MathML">
+          <lambda>
+            <bvar>
+              <ci> T </ci>
+            </bvar>
+            <bvar>
+              <ci> TR </ci>
+            </bvar>
+            <bvar>
+              <ci> TA </ci>
+            </bvar>
+            <apply>
+              <exp/>
+              <apply>
+                <minus/>
+                <apply>
+                  <divide/>
+                  <ci> TA </ci>
+                  <ci> TR </ci>
+                </apply>
+                <apply>
+                  <divide/>
+                  <ci> TA </ci>
+                  <ci> T </ci>
+                </apply>
+              </apply>
+            </apply>
+          </lambda>
+        </math>
+      </functionDefinition>
+    </listOfFunctionDefinitions>
+    <listOfUnitDefinitions>
+      <unitDefinition id="MicroGM">
+        <listOfUnits>
+          <unit kind="gram" exponent="1" scale="-6" multiplier="1"/>
+        </listOfUnits>
+      </unitDefinition>
+      <unitDefinition id="DAY">
+        <listOfUnits>
+          <unit kind="second" exponent="1" scale="0" multiplier="86400"/>
+        </listOfUnits>
+      </unitDefinition>
+      <unitDefinition id="MilliL">
+        <listOfUnits>
+          <unit kind="litre" exponent="1" scale="-3" multiplier="1"/>
+        </listOfUnits>
+      </unitDefinition>
+      <unitDefinition id="GM">
+        <listOfUnits>
+          <unit kind="gram" exponent="1" scale="0" multiplier="1"/>
+        </listOfUnits>
+      </unitDefinition>
+      <unitDefinition id="L_PER_KiloGM">
+        <listOfUnits>
+          <unit kind="litre" exponent="1" scale="0" multiplier="1"/>
+          <unit kind="gram" exponent="-1" scale="3" multiplier="1"/>
+        </listOfUnits>
+      </unitDefinition>
+      <unitDefinition id="UNITLESS">
+        <listOfUnits>
+          <unit kind="dimensionless" exponent="1" scale="0" multiplier="1"/>
+        </listOfUnits>
+      </unitDefinition>
+      <unitDefinition id="PER_DAY">
+        <listOfUnits>
+          <unit kind="second" exponent="-1" scale="0" multiplier="86400"/>
+        </listOfUnits>
+      </unitDefinition>
+      <unitDefinition id="MicroGM_PER_DAY">
+        <listOfUnits>
+          <unit kind="gram" exponent="1" scale="-6" multiplier="1"/>
+          <unit kind="second" exponent="-1" scale="0" multiplier="86400"/>
+        </listOfUnits>
+      </unitDefinition>
+    </listOfUnitDefinitions>
+    <listOfCompartments>
+      <compartment id="Art" name="arterial blood" spatialDimensions="3" size="0.614833333333333" constant="false"/>
+      <compartment id="Ven" name="venous blood" spatialDimensions="3" size="1.22966666666667" constant="false"/>
+      <compartment id="Liver" name="liver" spatialDimensions="3" size="0.511" constant="false"/>
+      <compartment id="Gonads" name="gonads" spatialDimensions="3" size="0.63" constant="false"/>
+      <compartment metaid="meta_Brain" id="Brain" name="brain" spatialDimensions="3" size="0.1715" constant="false">
+        <annotation>
+          <rdf:RDF xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns:dcterms="http://purl.org/dc/terms/" xmlns:vCard="http://www.w3.org/2001/vcard-rdf/3.0#" xmlns:vCard4="http://www.w3.org/2006/vcard/ns#" xmlns:bqbiol="http://biomodels.net/biology-qualifiers/" xmlns:bqmodel="http://biomodels.net/model-qualifiers/">
+            <rdf:Description rdf:about="#meta_Brain">
+              <bqmodel:is>
+                <rdf:Bag>
+                  <rdf:li rdf:resource="http://purl.obolibrary.org/obo/PBPKO_00466"/>
+                </rdf:Bag>
+              </bqmodel:is>
+            </rdf:Description>
+          </rdf:RDF>
+        </annotation>
+      </compartment>
+      <compartment id="Fat" name="fat" spatialDimensions="3" size="2.7895" constant="false"/>
+      <compartment metaid="meta_Skin" id="Skin" name="skin" spatialDimensions="3" size="3.5" constant="false">
+        <annotation>
+          <rdf:RDF xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns:dcterms="http://purl.org/dc/terms/" xmlns:vCard="http://www.w3.org/2001/vcard-rdf/3.0#" xmlns:vCard4="http://www.w3.org/2006/vcard/ns#" xmlns:bqbiol="http://biomodels.net/biology-qualifiers/" xmlns:bqmodel="http://biomodels.net/model-qualifiers/">
+            <rdf:Description rdf:about="#meta_Skin">
+              <bqmodel:is>
+                <rdf:Bag>
+                  <rdf:li rdf:resource="http://purl.obolibrary.org/obo/PBPKO_00470"/>
+                </rdf:Bag>
+              </bqmodel:is>
+            </rdf:Description>
+          </rdf:RDF>
+        </annotation>
+      </compartment>
+      <compartment id="GIT" name="gastrointestinal tract" spatialDimensions="3" size="3.465" constant="false"/>
+      <compartment id="Kidney" name="kidney" spatialDimensions="3" size="0.266" constant="false"/>
+      <compartment metaid="meta_Rich" id="Rich" name="richly perfused tissue" spatialDimensions="3" size="0.8995" constant="false">
+        <annotation>
+          <rdf:RDF xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns:dcterms="http://purl.org/dc/terms/" xmlns:vCard="http://www.w3.org/2001/vcard-rdf/3.0#" xmlns:vCard4="http://www.w3.org/2006/vcard/ns#" xmlns:bqbiol="http://biomodels.net/biology-qualifiers/" xmlns:bqmodel="http://biomodels.net/model-qualifiers/">
+            <rdf:Description rdf:about="#meta_Rich">
+              <bqmodel:is>
+                <rdf:Bag>
+                  <rdf:li rdf:resource="http://purl.obolibrary.org/obo/PBPKO_00453"/>
+                </rdf:Bag>
+              </bqmodel:is>
+            </rdf:Description>
+          </rdf:RDF>
+        </annotation>
+      </compartment>
+      <compartment metaid="meta_Poor" id="Poor" name="poorly perfused tissue" spatialDimensions="3" size="20.923" constant="false">
+        <annotation>
+          <rdf:RDF xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns:dcterms="http://purl.org/dc/terms/" xmlns:vCard="http://www.w3.org/2001/vcard-rdf/3.0#" xmlns:vCard4="http://www.w3.org/2006/vcard/ns#" xmlns:bqbiol="http://biomodels.net/biology-qualifiers/" xmlns:bqmodel="http://biomodels.net/model-qualifiers/">
+            <rdf:Description rdf:about="#meta_Poor">
+              <bqmodel:is>
+                <rdf:Bag>
+                  <rdf:li rdf:resource="http://purl.obolibrary.org/obo/PBPKO_00454"/>
+                </rdf:Bag>
+              </bqmodel:is>
+            </rdf:Description>
+          </rdf:RDF>
+        </annotation>
+      </compartment>
+      <compartment id="GIT_lumen" name="gut lumen" spatialDimensions="3" size="1" constant="true"/>
+      <compartment id="Bile" name="bile" spatialDimensions="3" size="1" constant="true"/>
+      <compartment id="Feces" name="feces" spatialDimensions="3" size="1" constant="true"/>
+      <compartment id="Urine" name="urine" spatialDimensions="3" size="1" constant="true"/>
+      <compartment id="Water" name="water" spatialDimensions="3" size="1000" constant="true"/>
+      <compartment id="Gills" name="gills" spatialDimensions="3" size="1" constant="true"/>
+    </listOfCompartments>
+    <listOfSpecies>
+      <species id="Q_art" name="amount of chemical in arterial blood" compartment="Art" initialAmount="0" substanceUnits="MicroGM" hasOnlySubstanceUnits="true" boundaryCondition="false" constant="false"/>
+      <species id="Q_ven" name="amount of chemical in venous blood" compartment="Ven" initialAmount="0" substanceUnits="MicroGM" hasOnlySubstanceUnits="true" boundaryCondition="false" constant="false"/>
+      <species id="Q_met_plasma" name="amount of chemical metabolised in venous blood plasma" compartment="Ven" initialAmount="0" substanceUnits="MicroGM" hasOnlySubstanceUnits="true" boundaryCondition="false" constant="false"/>
+      <species id="Q_liver" name="amount of chemical in liver" compartment="Liver" initialAmount="0" substanceUnits="MicroGM" hasOnlySubstanceUnits="true" boundaryCondition="false" constant="false"/>
+      <species id="Q_met_liver" name="amount of chemical metabolised in liver" compartment="Liver" initialAmount="0" substanceUnits="MicroGM" hasOnlySubstanceUnits="true" boundaryCondition="false" constant="false"/>
+      <species id="Q_gonads" name="amount of chemical in gonads" compartment="Gonads" initialAmount="0" substanceUnits="MicroGM" hasOnlySubstanceUnits="true" boundaryCondition="false" constant="false"/>
+      <species id="Q_brain" name="amount of chemical in brain" compartment="Brain" initialAmount="0" substanceUnits="MicroGM" hasOnlySubstanceUnits="true" boundaryCondition="false" constant="false"/>
+      <species id="Q_fat" name="amount of chemical in fat" compartment="Fat" initialAmount="0" substanceUnits="MicroGM" hasOnlySubstanceUnits="true" boundaryCondition="false" constant="false"/>
+      <species id="Q_skin" name="amount of chemical in skin" compartment="Skin" initialAmount="0" substanceUnits="MicroGM" hasOnlySubstanceUnits="true" boundaryCondition="false" constant="false"/>
+      <species id="Q_GIT" name="amount of chemical in GI-tract" compartment="GIT" initialAmount="0" substanceUnits="MicroGM" hasOnlySubstanceUnits="true" boundaryCondition="false" constant="false"/>
+      <species id="Q_lumen_GIT" name="amount of chemical in gut lumen" compartment="GIT_lumen" initialAmount="0" substanceUnits="MicroGM" hasOnlySubstanceUnits="true" boundaryCondition="false" constant="false"/>
+      <species id="Q_kidney" name="amount of chemical in kidney" compartment="Kidney" initialAmount="0" substanceUnits="MicroGM" hasOnlySubstanceUnits="true" boundaryCondition="false" constant="false"/>
+      <species id="Q_rich" name="amount of chemical in richly perfused tissue" compartment="Rich" initialAmount="0" substanceUnits="MicroGM" hasOnlySubstanceUnits="true" boundaryCondition="false" constant="false"/>
+      <species id="Q_poor" name="amount of chemical in poorly perfused tissue" compartment="Poor" initialAmount="0" substanceUnits="MicroGM" hasOnlySubstanceUnits="true" boundaryCondition="false" constant="false"/>
+      <species id="Q_bile" name="amount of chemical in bile" compartment="Bile" initialAmount="0" substanceUnits="MicroGM" hasOnlySubstanceUnits="true" boundaryCondition="false" constant="false"/>
+      <species id="Q_urine" name="amount of chemical in urine" compartment="Urine" initialAmount="0" substanceUnits="MicroGM" hasOnlySubstanceUnits="true" boundaryCondition="false" constant="false"/>
+      <species id="Q_feces" name="amount of chemical in feces" compartment="Feces" initialAmount="0" substanceUnits="MicroGM" hasOnlySubstanceUnits="true" boundaryCondition="false" constant="false"/>
+      <species id="Q_water" name="amount of chemical in water" compartment="Water" initialAmount="0" substanceUnits="MicroGM" hasOnlySubstanceUnits="true" boundaryCondition="false" constant="false"/>
+      <species id="Q_excret_gills" name="amount of chemical excreted via gills" compartment="Gills" initialAmount="0" substanceUnits="MicroGM" hasOnlySubstanceUnits="true" boundaryCondition="false" constant="false"/>
+    </listOfSpecies>
+    <listOfParameters>
+      <parameter id="Temperature" name="Ambient water temperature" value="10" constant="true"/>
+      <parameter id="TA" name="Arrhenius temperature" value="6930" constant="true"/>
+      <parameter id="TR_DEB" name="Reference temperature for DEB scaling" value="293.65" constant="true"/>
+      <parameter id="TR_Fcard" name="Reference temperature for cardiac output" value="279.15" constant="true"/>
+      <parameter id="TR_VO2" name="Reference temperature for VO2 scaling" value="283.15" constant="true"/>
+      <parameter id="f_cst" value="1" constant="true"/>
+      <parameter id="Bw_i" name="initial body weight initial (fresh weight)" value="35" units="GM" constant="true"/>
+      <parameter id="Bw_Fcard_ref" name="reference body weight of cardiac output" value="270.1" units="GM" constant="true"/>
+      <parameter id="Bw_VO2_ref" name="reference body weight of reference for VO2" value="1000" units="GM" constant="true"/>
+      <parameter id="DEB_v" value="0.38" constant="true"/>
+      <parameter id="DEB_g" value="0.196" constant="true"/>
+      <parameter id="DEB_KM" value="0.027" constant="true"/>
+      <parameter id="DEB_EHm" value="452" constant="true"/>
+      <parameter id="DEB_EHb" value="52" constant="true"/>
+      <parameter id="DEB_shape" value="0.113" constant="true"/>
+      <parameter id="a_BW_L" value="0.0051" constant="true"/>
+      <parameter id="b_BW_L" value="3.3513" constant="true"/>
+      <parameter id="F_card_ref" value="28.5" constant="true"/>
+      <parameter id="V_O2_ref" value="3.26" constant="true"/>
+      <parameter id="O2_EE" value="0.71" constant="true"/>
+      <parameter id="Sat" value="0.9" constant="true"/>
+      <parameter id="frac_art_ven" value="0.333333333333333" constant="true"/>
+      <parameter id="sc_blood" name="blood volume as fraction of BW" value="0.0527" units="L_PER_KiloGM" constant="true"/>
+      <parameter id="sc_gonads" name="gonads volume as fraction of BW" value="0.018" units="L_PER_KiloGM" constant="true"/>
+      <parameter id="sc_brain" name="brain volume as fraction of BW" value="0.0049" units="L_PER_KiloGM" constant="true"/>
+      <parameter id="sc_liver" name="liver volume as fraction of BW" value="0.0146" units="L_PER_KiloGM" constant="true"/>
+      <parameter id="sc_fat" name="fat volume as fraction of BW" value="0.0797" units="L_PER_KiloGM" constant="true"/>
+      <parameter id="sc_skin" name="skin volume as fraction of BW" value="0.1" units="L_PER_KiloGM" constant="true"/>
+      <parameter id="sc_GIT" name="GI tract volume as fraction of BW" value="0.099" units="L_PER_KiloGM" constant="true"/>
+      <parameter id="sc_kidney" name="kidney volume as fraction of BW" value="0.0076" units="L_PER_KiloGM" constant="true"/>
+      <parameter id="sc_rp" name="richly perfused tissue volume as fraction of BW" value="0.0257" units="L_PER_KiloGM" constant="true"/>
+      <parameter id="sc_pp" name="poorly perfused tissue volume as fraction of BW" value="0.5978" units="L_PER_KiloGM" constant="false"/>
+      <parameter id="frac_gonads" name="fraction of arterial blood flow to gonads" value="0.0138" units="UNITLESS" constant="true"/>
+      <parameter id="frac_brain" name="fraction of arterial blood flow to brain" value="0.018" units="UNITLESS" constant="true"/>
+      <parameter id="frac_liver" name="fraction of arterial blood flow to liver" value="0.0158" units="UNITLESS" constant="true"/>
+      <parameter id="frac_fat" name="fraction of arterial blood flow to fat" value="0.0059" units="UNITLESS" constant="true"/>
+      <parameter id="frac_skin" name="fraction of arterial blood flow to skin" value="0.057" units="UNITLESS" constant="true"/>
+      <parameter id="frac_GIT" name="fraction of arterial blood flow to GI tract" value="0.1759" units="UNITLESS" constant="true"/>
+      <parameter id="frac_kidney" name="fraction of arterial blood flow to kidney" value="0.0817" units="UNITLESS" constant="true"/>
+      <parameter id="frac_rp" name="fraction of arterial blood flow to richly perfused tissues" value="0.0952" units="UNITLESS" constant="true"/>
+      <parameter id="frac_pp" name="fraction of arterial blood flow to poorly perfused tissues" value="0.5367" units="UNITLESS" constant="false"/>
+      <parameter id="fub_blood" name="fraction of unbound chemical in blood" value="1" units="UNITLESS" constant="true"/>
+      <parameter id="PC_bw" name="partition coefficient blood:water" value="30478.949896" units="UNITLESS" constant="true"/>
+      <parameter id="PC_liver" name="partition coefficient liver:blood" value="9.315661" units="UNITLESS" constant="true"/>
+      <parameter id="PC_gonads" name="partition coefficient gonads:blood" value="11.654918" units="UNITLESS" constant="true"/>
+      <parameter id="PC_brain" name="partition coefficient brain:blood" value="15.112057" units="UNITLESS" constant="true"/>
+      <parameter id="PC_fat" name="partition coefficient fat:blood" value="195.007317" units="UNITLESS" constant="true"/>
+      <parameter id="PC_skin" name="partition coefficient skin:blood" value="6.003432" units="UNITLESS" constant="true"/>
+      <parameter id="PC_GIT" name="partition coefficient GIT:blood" value="59.62009" units="UNITLESS" constant="true"/>
+      <parameter id="PC_kidney" name="partition coefficient kidney:blood" value="10.764761" units="UNITLESS" constant="true"/>
+      <parameter id="PC_rp" name="partition coefficient richly perfused:blood" value="14.014875" units="UNITLESS" constant="true"/>
+      <parameter id="PC_pp" name="partition coefficient poorly perfused:blood" value="6.21045" units="UNITLESS" constant="true"/>
+      <parameter id="a_Fpp" name="fraction of PPT blood going to venous" value="0.4" units="UNITLESS" constant="true"/>
+      <parameter id="a_Fs" name="fraction of skin blood going to venous" value="0.1" units="UNITLESS" constant="true"/>
+      <parameter id="Ku" name="uptake rate from lumen to GIT wall" value="1.14619047619048" units="PER_DAY" constant="true"/>
+      <parameter id="frac_abs" name="absorption fraction" value="0" units="UNITLESS" constant="true"/>
+      <parameter id="Km" name="Michaelis constant" value="0" constant="true"/>
+      <parameter id="Vmax" name="Max metabolic rate" value="0" constant="true"/>
+      <parameter id="Cl_liver" name="Liver clearance" value="0" constant="true"/>
+      <parameter id="rate_plasma" name="plasma metabolism rate" value="0" constant="true"/>
+      <parameter id="Ke_bile" name="first-order bile excretion rate" value="1.5" units="PER_DAY" constant="true"/>
+      <parameter id="Ke_urine" name="urine elimination rate" value="0" units="PER_DAY" constant="true"/>
+      <parameter id="Ke_water" name="water elimination rate (gills)" value="0" units="PER_DAY" constant="true"/>
+      <parameter id="K_BG" name="transfer rate from bile to gut lumen" value="0" units="PER_DAY" constant="true"/>
+      <parameter id="Ke_feces" name="fecal excretion rate" value="0.83" units="PER_DAY" constant="true"/>
+      <parameter id="TC_c" value="10" constant="true"/>
+      <parameter id="TC_k" value="283.15" constant="false"/>
+      <parameter metaid="meta_BW" id="BW" name="body weight" value="35" units="GM" constant="true">
+        <annotation>
+          <rdf:RDF xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns:dcterms="http://purl.org/dc/terms/" xmlns:vCard="http://www.w3.org/2001/vcard-rdf/3.0#" xmlns:vCard4="http://www.w3.org/2006/vcard/ns#" xmlns:bqbiol="http://biomodels.net/biology-qualifiers/" xmlns:bqmodel="http://biomodels.net/model-qualifiers/">
+            <rdf:Description rdf:about="#meta_BW">
+              <bqmodel:is>
+                <rdf:Bag>
+                  <rdf:li rdf:resource="http://purl.obolibrary.org/obo/PBPKO_00008"/>
+                </rdf:Bag>
+              </bqmodel:is>
+            </rdf:Description>
+          </rdf:RDF>
+        </annotation>
+      </parameter>
+      <parameter id="F_card_g" name="cardiac output expressed per BW" value="49.6476541311556" constant="false"/>
+      <parameter id="F_card" name="cardiac output" value="1737.66789459045" constant="false"/>
+      <parameter id="F_liver" name="blood flow to liver" value="27.4551527345291" constant="false"/>
+      <parameter id="F_gonads" value="23.9798169453482" constant="false"/>
+      <parameter id="F_brain" value="31.278022102628" constant="false"/>
+      <parameter id="F_fat" value="10.2522405780836" constant="false"/>
+      <parameter id="F_skin" value="99.0470699916554" constant="false"/>
+      <parameter id="F_GIT" value="305.655782658459" constant="false"/>
+      <parameter id="F_kidney" value="141.967466988039" constant="false"/>
+      <parameter id="F_rp" value="165.42598356501" constant="false"/>
+      <parameter id="F_pp" value="932.606359026692" constant="false"/>
+      <parameter id="V_O2_g" value="4.55838282565127" constant="false"/>
+      <parameter id="V_O2" value="159.543398897794" constant="false"/>
+      <parameter id="C_O2_water" value="0.010476" constant="false"/>
+      <parameter id="F_water" value="21449.8866487309" constant="false"/>
+      <parameter id="Kx" value="21449.8866487309" constant="false"/>
+      <parameter id="Vmax_sc" value="0" units="MicroGM_PER_DAY" constant="false"/>
+      <parameter id="Cl_liver_sc" value="0" constant="false"/>
+      <parameter id="rate_plasma_sc" value="0" constant="false"/>
+    </listOfParameters>
+    <listOfInitialAssignments/>
+    <listOfRules>
+      <assignmentRule variable="Art">
+        <math xmlns="http://www.w3.org/1998/Math/MathML">
+          <apply>
+            <times/>
+            <ci> sc_blood </ci>
+            <ci> BW </ci>
+            <ci> frac_art_ven </ci>
+          </apply>
+        </math>
+      </assignmentRule>
+      <assignmentRule variable="Ven">
+        <math xmlns="http://www.w3.org/1998/Math/MathML">
+          <apply>
+            <minus/>
+            <apply>
+              <times/>
+              <ci> sc_blood </ci>
+              <ci> BW </ci>
+            </apply>
+            <ci> Art </ci>
+          </apply>
+        </math>
+      </assignmentRule>
+      <assignmentRule variable="Liver">
+        <math xmlns="http://www.w3.org/1998/Math/MathML">
+          <apply>
+            <times/>
+            <ci> sc_liver </ci>
+            <ci> BW </ci>
+          </apply>
+        </math>
+      </assignmentRule>
+      <assignmentRule variable="Gonads">
+        <math xmlns="http://www.w3.org/1998/Math/MathML">
+          <apply>
+            <times/>
+            <ci> sc_gonads </ci>
+            <ci> BW </ci>
+          </apply>
+        </math>
+      </assignmentRule>
+      <assignmentRule variable="Brain">
+        <math xmlns="http://www.w3.org/1998/Math/MathML">
+          <apply>
+            <times/>
+            <ci> sc_brain </ci>
+            <ci> BW </ci>
+          </apply>
+        </math>
+      </assignmentRule>
+      <assignmentRule variable="Fat">
+        <math xmlns="http://www.w3.org/1998/Math/MathML">
+          <apply>
+            <times/>
+            <ci> sc_fat </ci>
+            <ci> BW </ci>
+          </apply>
+        </math>
+      </assignmentRule>
+      <assignmentRule variable="Skin">
+        <math xmlns="http://www.w3.org/1998/Math/MathML">
+          <apply>
+            <times/>
+            <ci> sc_skin </ci>
+            <ci> BW </ci>
+          </apply>
+        </math>
+      </assignmentRule>
+      <assignmentRule variable="GIT">
+        <math xmlns="http://www.w3.org/1998/Math/MathML">
+          <apply>
+            <times/>
+            <ci> sc_GIT </ci>
+            <ci> BW </ci>
+          </apply>
+        </math>
+      </assignmentRule>
+      <assignmentRule variable="Kidney">
+        <math xmlns="http://www.w3.org/1998/Math/MathML">
+          <apply>
+            <times/>
+            <ci> sc_kidney </ci>
+            <ci> BW </ci>
+          </apply>
+        </math>
+      </assignmentRule>
+      <assignmentRule variable="Rich">
+        <math xmlns="http://www.w3.org/1998/Math/MathML">
+          <apply>
+            <times/>
+            <ci> sc_rp </ci>
+            <ci> BW </ci>
+          </apply>
+        </math>
+      </assignmentRule>
+      <assignmentRule variable="Poor">
+        <math xmlns="http://www.w3.org/1998/Math/MathML">
+          <apply>
+            <minus/>
+            <ci> BW </ci>
+            <apply>
+              <plus/>
+              <ci> Art </ci>
+              <ci> Ven </ci>
+              <ci> Liver </ci>
+              <ci> Gonads </ci>
+              <ci> Brain </ci>
+              <ci> Fat </ci>
+              <ci> Skin </ci>
+              <ci> GIT </ci>
+              <ci> Kidney </ci>
+              <ci> Rich </ci>
+            </apply>
+          </apply>
+        </math>
+      </assignmentRule>
+      <assignmentRule variable="sc_pp">
+        <math xmlns="http://www.w3.org/1998/Math/MathML">
+          <apply>
+            <minus/>
+            <apply>
+              <minus/>
+              <apply>
+                <minus/>
+                <apply>
+                  <minus/>
+                  <apply>
+                    <minus/>
+                    <apply>
+                      <minus/>
+                      <apply>
+                        <minus/>
+                        <apply>
+                          <minus/>
+                          <apply>
+                            <minus/>
+                            <cn type="integer"> 1 </cn>
+                            <ci> sc_blood </ci>
+                          </apply>
+                          <ci> sc_gonads </ci>
+                        </apply>
+                        <ci> sc_brain </ci>
+                      </apply>
+                      <ci> sc_liver </ci>
+                    </apply>
+                    <ci> sc_fat </ci>
+                  </apply>
+                  <ci> sc_skin </ci>
+                </apply>
+                <ci> sc_GIT </ci>
+              </apply>
+              <ci> sc_kidney </ci>
+            </apply>
+            <ci> sc_rp </ci>
+          </apply>
+        </math>
+      </assignmentRule>
+      <assignmentRule variable="frac_pp">
+        <math xmlns="http://www.w3.org/1998/Math/MathML">
+          <apply>
+            <minus/>
+            <apply>
+              <minus/>
+              <apply>
+                <minus/>
+                <apply>
+                  <minus/>
+                  <apply>
+                    <minus/>
+                    <apply>
+                      <minus/>
+                      <apply>
+                        <minus/>
+                        <apply>
+                          <minus/>
+                          <cn type="integer"> 1 </cn>
+                          <ci> frac_gonads </ci>
+                        </apply>
+                        <ci> frac_brain </ci>
+                      </apply>
+                      <ci> frac_liver </ci>
+                    </apply>
+                    <ci> frac_fat </ci>
+                  </apply>
+                  <ci> frac_skin </ci>
+                </apply>
+                <ci> frac_GIT </ci>
+              </apply>
+              <ci> frac_kidney </ci>
+            </apply>
+            <ci> frac_rp </ci>
+          </apply>
+        </math>
+      </assignmentRule>
+      <assignmentRule variable="TC_k">
+        <math xmlns="http://www.w3.org/1998/Math/MathML">
+          <apply>
+            <plus/>
+            <ci> TC_c </ci>
+            <cn> 273.15 </cn>
+          </apply>
+        </math>
+      </assignmentRule>
+      <assignmentRule variable="F_card_g">
+        <math xmlns="http://www.w3.org/1998/Math/MathML">
+          <apply>
+            <times/>
+            <ci> F_card_ref </ci>
+            <apply>
+              <ci> KT </ci>
+              <ci> TC_k </ci>
+              <ci> TR_Fcard </ci>
+              <ci> TA </ci>
+            </apply>
+            <apply>
+              <power/>
+              <apply>
+                <divide/>
+                <ci> BW </ci>
+                <ci> Bw_Fcard_ref </ci>
+              </apply>
+              <cn> -0.1 </cn>
+            </apply>
+          </apply>
+        </math>
+      </assignmentRule>
+      <assignmentRule variable="F_card">
+        <math xmlns="http://www.w3.org/1998/Math/MathML">
+          <apply>
+            <times/>
+            <ci> F_card_g </ci>
+            <ci> BW </ci>
+          </apply>
+        </math>
+      </assignmentRule>
+      <assignmentRule variable="F_liver">
+        <math xmlns="http://www.w3.org/1998/Math/MathML">
+          <apply>
+            <times/>
+            <ci> frac_liver </ci>
+            <ci> F_card </ci>
+          </apply>
+        </math>
+      </assignmentRule>
+      <assignmentRule variable="F_gonads">
+        <math xmlns="http://www.w3.org/1998/Math/MathML">
+          <apply>
+            <times/>
+            <ci> frac_gonads </ci>
+            <ci> F_card </ci>
+          </apply>
+        </math>
+      </assignmentRule>
+      <assignmentRule variable="F_brain">
+        <math xmlns="http://www.w3.org/1998/Math/MathML">
+          <apply>
+            <times/>
+            <ci> frac_brain </ci>
+            <ci> F_card </ci>
+          </apply>
+        </math>
+      </assignmentRule>
+      <assignmentRule variable="F_fat">
+        <math xmlns="http://www.w3.org/1998/Math/MathML">
+          <apply>
+            <times/>
+            <ci> frac_fat </ci>
+            <ci> F_card </ci>
+          </apply>
+        </math>
+      </assignmentRule>
+      <assignmentRule variable="F_skin">
+        <math xmlns="http://www.w3.org/1998/Math/MathML">
+          <apply>
+            <times/>
+            <ci> frac_skin </ci>
+            <ci> F_card </ci>
+          </apply>
+        </math>
+      </assignmentRule>
+      <assignmentRule variable="F_GIT">
+        <math xmlns="http://www.w3.org/1998/Math/MathML">
+          <apply>
+            <times/>
+            <ci> frac_GIT </ci>
+            <ci> F_card </ci>
+          </apply>
+        </math>
+      </assignmentRule>
+      <assignmentRule variable="F_kidney">
+        <math xmlns="http://www.w3.org/1998/Math/MathML">
+          <apply>
+            <times/>
+            <ci> frac_kidney </ci>
+            <ci> F_card </ci>
+          </apply>
+        </math>
+      </assignmentRule>
+      <assignmentRule variable="F_rp">
+        <math xmlns="http://www.w3.org/1998/Math/MathML">
+          <apply>
+            <times/>
+            <ci> frac_rp </ci>
+            <ci> F_card </ci>
+          </apply>
+        </math>
+      </assignmentRule>
+      <assignmentRule variable="F_pp">
+        <math xmlns="http://www.w3.org/1998/Math/MathML">
+          <apply>
+            <minus/>
+            <ci> F_card </ci>
+            <apply>
+              <plus/>
+              <ci> F_liver </ci>
+              <ci> F_gonads </ci>
+              <ci> F_brain </ci>
+              <ci> F_fat </ci>
+              <ci> F_skin </ci>
+              <ci> F_GIT </ci>
+              <ci> F_kidney </ci>
+              <ci> F_rp </ci>
+            </apply>
+          </apply>
+        </math>
+      </assignmentRule>
+      <assignmentRule variable="V_O2_g">
+        <math xmlns="http://www.w3.org/1998/Math/MathML">
+          <apply>
+            <times/>
+            <ci> V_O2_ref </ci>
+            <apply>
+              <ci> KT </ci>
+              <ci> TC_k </ci>
+              <ci> TR_VO2 </ci>
+              <ci> TA </ci>
+            </apply>
+            <apply>
+              <power/>
+              <apply>
+                <divide/>
+                <ci> BW </ci>
+                <ci> Bw_VO2_ref </ci>
+              </apply>
+              <cn> -0.1 </cn>
+            </apply>
+          </apply>
+        </math>
+      </assignmentRule>
+      <assignmentRule variable="V_O2">
+        <math xmlns="http://www.w3.org/1998/Math/MathML">
+          <apply>
+            <times/>
+            <ci> V_O2_g </ci>
+            <ci> BW </ci>
+          </apply>
+        </math>
+      </assignmentRule>
+      <assignmentRule variable="C_O2_water">
+        <math xmlns="http://www.w3.org/1998/Math/MathML">
+          <apply>
+            <divide/>
+            <apply>
+              <times/>
+              <apply>
+                <plus/>
+                <apply>
+                  <times/>
+                  <cn> -0.24 </cn>
+                  <ci> TC_c </ci>
+                </apply>
+                <cn> 14.04 </cn>
+              </apply>
+              <ci> Sat </ci>
+            </apply>
+            <apply>
+              <power/>
+              <cn type="integer"> 10 </cn>
+              <cn type="integer"> 3 </cn>
+            </apply>
+          </apply>
+        </math>
+      </assignmentRule>
+      <assignmentRule variable="F_water">
+        <math xmlns="http://www.w3.org/1998/Math/MathML">
+          <apply>
+            <divide/>
+            <ci> V_O2 </ci>
+            <apply>
+              <times/>
+              <ci> O2_EE </ci>
+              <ci> C_O2_water </ci>
+            </apply>
+          </apply>
+        </math>
+      </assignmentRule>
+      <assignmentRule variable="Kx">
+        <math xmlns="http://www.w3.org/1998/Math/MathML">
+          <apply>
+            <min/>
+            <ci> F_water </ci>
+            <apply>
+              <times/>
+              <ci> F_card </ci>
+              <ci> PC_bw </ci>
+            </apply>
+          </apply>
+        </math>
+      </assignmentRule>
+      <assignmentRule variable="Vmax_sc">
+        <math xmlns="http://www.w3.org/1998/Math/MathML">
+          <apply>
+            <times/>
+            <ci> Vmax </ci>
+            <ci> sc_liver </ci>
+            <ci> BW </ci>
+          </apply>
+        </math>
+      </assignmentRule>
+      <assignmentRule variable="Cl_liver_sc">
+        <math xmlns="http://www.w3.org/1998/Math/MathML">
+          <apply>
+            <times/>
+            <ci> Cl_liver </ci>
+            <ci> sc_liver </ci>
+            <ci> BW </ci>
+          </apply>
+        </math>
+      </assignmentRule>
+      <assignmentRule variable="rate_plasma_sc">
+        <math xmlns="http://www.w3.org/1998/Math/MathML">
+          <apply>
+            <times/>
+            <ci> rate_plasma </ci>
+            <ci> BW </ci>
+          </apply>
+        </math>
+      </assignmentRule>
+    </listOfRules>
+    <listOfReactions>
+      <reaction id="_J0" reversible="true">
+        <listOfReactants>
+          <speciesReference species="Q_ven" stoichiometry="1" constant="true"/>
+        </listOfReactants>
+        <listOfProducts>
+          <speciesReference species="Q_excret_gills" stoichiometry="1" constant="true"/>
+        </listOfProducts>
+        <kineticLaw>
+          <math xmlns="http://www.w3.org/1998/Math/MathML">
+            <apply>
+              <divide/>
+              <apply>
+                <times/>
+                <ci> Kx </ci>
+                <apply>
+                  <divide/>
+                  <ci> Q_ven </ci>
+                  <ci> Ven </ci>
+                </apply>
+                <ci> fub_blood </ci>
+              </apply>
+              <ci> PC_bw </ci>
+            </apply>
+          </math>
+        </kineticLaw>
+      </reaction>
+      <reaction id="_J1" reversible="true">
+        <listOfReactants>
+          <speciesReference species="Q_water" stoichiometry="1" constant="true"/>
+        </listOfReactants>
+        <listOfProducts>
+          <speciesReference species="Q_ven" stoichiometry="1" constant="true"/>
+        </listOfProducts>
+        <kineticLaw>
+          <math xmlns="http://www.w3.org/1998/Math/MathML">
+            <apply>
+              <times/>
+              <ci> Kx </ci>
+              <apply>
+                <divide/>
+                <ci> Q_water </ci>
+                <ci> Water </ci>
+              </apply>
+            </apply>
+          </math>
+        </kineticLaw>
+      </reaction>
+      <reaction id="_J2" reversible="true">
+        <listOfReactants>
+          <speciesReference species="Q_lumen_GIT" stoichiometry="1" constant="true"/>
+        </listOfReactants>
+        <listOfProducts>
+          <speciesReference species="Q_GIT" stoichiometry="1" constant="true"/>
+        </listOfProducts>
+        <kineticLaw>
+          <math xmlns="http://www.w3.org/1998/Math/MathML">
+            <apply>
+              <times/>
+              <ci> Ku </ci>
+              <ci> Q_lumen_GIT </ci>
+            </apply>
+          </math>
+        </kineticLaw>
+      </reaction>
+      <reaction id="_J3" reversible="true">
+        <listOfReactants>
+          <speciesReference species="Q_lumen_GIT" stoichiometry="1" constant="true"/>
+        </listOfReactants>
+        <listOfProducts>
+          <speciesReference species="Q_feces" stoichiometry="1" constant="true"/>
+        </listOfProducts>
+        <kineticLaw>
+          <math xmlns="http://www.w3.org/1998/Math/MathML">
+            <apply>
+              <times/>
+              <ci> Q_lumen_GIT </ci>
+              <ci> Ke_feces </ci>
+            </apply>
+          </math>
+        </kineticLaw>
+      </reaction>
+      <reaction id="_J4" reversible="true">
+        <listOfReactants>
+          <speciesReference species="Q_GIT" stoichiometry="1" constant="true"/>
+        </listOfReactants>
+        <listOfProducts>
+          <speciesReference species="Q_liver" stoichiometry="1" constant="true"/>
+        </listOfProducts>
+        <kineticLaw>
+          <math xmlns="http://www.w3.org/1998/Math/MathML">
+            <apply>
+              <divide/>
+              <apply>
+                <times/>
+                <ci> F_GIT </ci>
+                <apply>
+                  <divide/>
+                  <ci> Q_GIT </ci>
+                  <ci> GIT </ci>
+                </apply>
+              </apply>
+              <ci> PC_GIT </ci>
+            </apply>
+          </math>
+        </kineticLaw>
+      </reaction>
+      <reaction id="_J5" reversible="true">
+        <listOfReactants>
+          <speciesReference species="Q_liver" stoichiometry="1" constant="true"/>
+        </listOfReactants>
+        <listOfProducts>
+          <speciesReference species="Q_bile" stoichiometry="1" constant="true"/>
+        </listOfProducts>
+        <kineticLaw>
+          <math xmlns="http://www.w3.org/1998/Math/MathML">
+            <apply>
+              <times/>
+              <ci> Ke_bile </ci>
+              <ci> Q_liver </ci>
+            </apply>
+          </math>
+        </kineticLaw>
+      </reaction>
+      <reaction id="_J6" reversible="true">
+        <listOfReactants>
+          <speciesReference species="Q_kidney" stoichiometry="1" constant="true"/>
+        </listOfReactants>
+        <listOfProducts>
+          <speciesReference species="Q_urine" stoichiometry="1" constant="true"/>
+        </listOfProducts>
+        <kineticLaw>
+          <math xmlns="http://www.w3.org/1998/Math/MathML">
+            <apply>
+              <times/>
+              <ci> Ke_urine </ci>
+              <ci> Q_kidney </ci>
+            </apply>
+          </math>
+        </kineticLaw>
+      </reaction>
+      <reaction id="_J7" reversible="true">
+        <listOfReactants>
+          <speciesReference species="Q_bile" stoichiometry="1" constant="true"/>
+        </listOfReactants>
+        <listOfProducts>
+          <speciesReference species="Q_lumen_GIT" stoichiometry="1" constant="true"/>
+        </listOfProducts>
+        <kineticLaw>
+          <math xmlns="http://www.w3.org/1998/Math/MathML">
+            <apply>
+              <times/>
+              <ci> Q_bile </ci>
+              <ci> K_BG </ci>
+            </apply>
+          </math>
+        </kineticLaw>
+      </reaction>
+      <reaction id="_J8" reversible="true">
+        <listOfReactants>
+          <speciesReference species="Q_art" stoichiometry="1" constant="true"/>
+        </listOfReactants>
+        <listOfProducts>
+          <speciesReference species="Q_GIT" stoichiometry="1" constant="true"/>
+        </listOfProducts>
+        <kineticLaw>
+          <math xmlns="http://www.w3.org/1998/Math/MathML">
+            <apply>
+              <times/>
+              <ci> F_GIT </ci>
+              <apply>
+                <divide/>
+                <ci> Q_art </ci>
+                <ci> Art </ci>
+              </apply>
+            </apply>
+          </math>
+        </kineticLaw>
+      </reaction>
+      <reaction id="_J9" reversible="true">
+        <listOfReactants>
+          <speciesReference species="Q_art" stoichiometry="1" constant="true"/>
+        </listOfReactants>
+        <listOfProducts>
+          <speciesReference species="Q_brain" stoichiometry="1" constant="true"/>
+        </listOfProducts>
+        <kineticLaw>
+          <math xmlns="http://www.w3.org/1998/Math/MathML">
+            <apply>
+              <times/>
+              <ci> F_brain </ci>
+              <apply>
+                <divide/>
+                <ci> Q_art </ci>
+                <ci> Art </ci>
+              </apply>
+            </apply>
+          </math>
+        </kineticLaw>
+      </reaction>
+      <reaction id="_J10" reversible="true">
+        <listOfReactants>
+          <speciesReference species="Q_art" stoichiometry="1" constant="true"/>
+        </listOfReactants>
+        <listOfProducts>
+          <speciesReference species="Q_fat" stoichiometry="1" constant="true"/>
+        </listOfProducts>
+        <kineticLaw>
+          <math xmlns="http://www.w3.org/1998/Math/MathML">
+            <apply>
+              <times/>
+              <ci> F_fat </ci>
+              <apply>
+                <divide/>
+                <ci> Q_art </ci>
+                <ci> Art </ci>
+              </apply>
+            </apply>
+          </math>
+        </kineticLaw>
+      </reaction>
+      <reaction id="_J11" reversible="true">
+        <listOfReactants>
+          <speciesReference species="Q_art" stoichiometry="1" constant="true"/>
+        </listOfReactants>
+        <listOfProducts>
+          <speciesReference species="Q_skin" stoichiometry="1" constant="true"/>
+        </listOfProducts>
+        <kineticLaw>
+          <math xmlns="http://www.w3.org/1998/Math/MathML">
+            <apply>
+              <times/>
+              <ci> F_skin </ci>
+              <apply>
+                <divide/>
+                <ci> Q_art </ci>
+                <ci> Art </ci>
+              </apply>
+            </apply>
+          </math>
+        </kineticLaw>
+      </reaction>
+      <reaction id="_J12" reversible="true">
+        <listOfReactants>
+          <speciesReference species="Q_art" stoichiometry="1" constant="true"/>
+        </listOfReactants>
+        <listOfProducts>
+          <speciesReference species="Q_kidney" stoichiometry="1" constant="true"/>
+        </listOfProducts>
+        <kineticLaw>
+          <math xmlns="http://www.w3.org/1998/Math/MathML">
+            <apply>
+              <times/>
+              <ci> F_kidney </ci>
+              <apply>
+                <divide/>
+                <ci> Q_art </ci>
+                <ci> Art </ci>
+              </apply>
+            </apply>
+          </math>
+        </kineticLaw>
+      </reaction>
+      <reaction id="_J13" reversible="true">
+        <listOfReactants>
+          <speciesReference species="Q_art" stoichiometry="1" constant="true"/>
+        </listOfReactants>
+        <listOfProducts>
+          <speciesReference species="Q_liver" stoichiometry="1" constant="true"/>
+        </listOfProducts>
+        <kineticLaw>
+          <math xmlns="http://www.w3.org/1998/Math/MathML">
+            <apply>
+              <times/>
+              <ci> F_liver </ci>
+              <apply>
+                <divide/>
+                <ci> Q_art </ci>
+                <ci> Art </ci>
+              </apply>
+            </apply>
+          </math>
+        </kineticLaw>
+      </reaction>
+      <reaction id="_J14" reversible="true">
+        <listOfReactants>
+          <speciesReference species="Q_art" stoichiometry="1" constant="true"/>
+        </listOfReactants>
+        <listOfProducts>
+          <speciesReference species="Q_gonads" stoichiometry="1" constant="true"/>
+        </listOfProducts>
+        <kineticLaw>
+          <math xmlns="http://www.w3.org/1998/Math/MathML">
+            <apply>
+              <times/>
+              <ci> F_gonads </ci>
+              <apply>
+                <divide/>
+                <ci> Q_art </ci>
+                <ci> Art </ci>
+              </apply>
+            </apply>
+          </math>
+        </kineticLaw>
+      </reaction>
+      <reaction id="_J15" reversible="true">
+        <listOfReactants>
+          <speciesReference species="Q_art" stoichiometry="1" constant="true"/>
+        </listOfReactants>
+        <listOfProducts>
+          <speciesReference species="Q_rich" stoichiometry="1" constant="true"/>
+        </listOfProducts>
+        <kineticLaw>
+          <math xmlns="http://www.w3.org/1998/Math/MathML">
+            <apply>
+              <times/>
+              <ci> F_rp </ci>
+              <apply>
+                <divide/>
+                <ci> Q_art </ci>
+                <ci> Art </ci>
+              </apply>
+            </apply>
+          </math>
+        </kineticLaw>
+      </reaction>
+      <reaction id="_J16" reversible="true">
+        <listOfReactants>
+          <speciesReference species="Q_art" stoichiometry="1" constant="true"/>
+        </listOfReactants>
+        <listOfProducts>
+          <speciesReference species="Q_poor" stoichiometry="1" constant="true"/>
+        </listOfProducts>
+        <kineticLaw>
+          <math xmlns="http://www.w3.org/1998/Math/MathML">
+            <apply>
+              <times/>
+              <ci> F_pp </ci>
+              <apply>
+                <divide/>
+                <ci> Q_art </ci>
+                <ci> Art </ci>
+              </apply>
+            </apply>
+          </math>
+        </kineticLaw>
+      </reaction>
+      <reaction id="_J17" reversible="true">
+        <listOfReactants>
+          <speciesReference species="Q_ven" stoichiometry="1" constant="true"/>
+        </listOfReactants>
+        <listOfProducts>
+          <speciesReference species="Q_art" stoichiometry="1" constant="true"/>
+        </listOfProducts>
+        <kineticLaw>
+          <math xmlns="http://www.w3.org/1998/Math/MathML">
+            <apply>
+              <times/>
+              <ci> F_card </ci>
+              <apply>
+                <divide/>
+                <ci> Q_ven </ci>
+                <ci> Ven </ci>
+              </apply>
+            </apply>
+          </math>
+        </kineticLaw>
+      </reaction>
+      <reaction id="_J18" reversible="true">
+        <listOfReactants>
+          <speciesReference species="Q_brain" stoichiometry="1" constant="true"/>
+        </listOfReactants>
+        <listOfProducts>
+          <speciesReference species="Q_ven" stoichiometry="1" constant="true"/>
+        </listOfProducts>
+        <kineticLaw>
+          <math xmlns="http://www.w3.org/1998/Math/MathML">
+            <apply>
+              <divide/>
+              <apply>
+                <times/>
+                <ci> F_brain </ci>
+                <apply>
+                  <divide/>
+                  <ci> Q_brain </ci>
+                  <ci> Brain </ci>
+                </apply>
+              </apply>
+              <ci> PC_brain </ci>
+            </apply>
+          </math>
+        </kineticLaw>
+      </reaction>
+      <reaction id="_J19" reversible="true">
+        <listOfReactants>
+          <speciesReference species="Q_liver" stoichiometry="1" constant="true"/>
+        </listOfReactants>
+        <listOfProducts>
+          <speciesReference species="Q_ven" stoichiometry="1" constant="true"/>
+        </listOfProducts>
+        <kineticLaw>
+          <math xmlns="http://www.w3.org/1998/Math/MathML">
+            <apply>
+              <divide/>
+              <apply>
+                <times/>
+                <apply>
+                  <plus/>
+                  <ci> F_liver </ci>
+                  <ci> F_rp </ci>
+                  <ci> F_gonads </ci>
+                  <ci> F_GIT </ci>
+                </apply>
+                <apply>
+                  <divide/>
+                  <ci> Q_liver </ci>
+                  <ci> Liver </ci>
+                </apply>
+              </apply>
+              <ci> PC_liver </ci>
+            </apply>
+          </math>
+        </kineticLaw>
+      </reaction>
+      <reaction id="_J20" reversible="true">
+        <listOfReactants>
+          <speciesReference species="Q_fat" stoichiometry="1" constant="true"/>
+        </listOfReactants>
+        <listOfProducts>
+          <speciesReference species="Q_ven" stoichiometry="1" constant="true"/>
+        </listOfProducts>
+        <kineticLaw>
+          <math xmlns="http://www.w3.org/1998/Math/MathML">
+            <apply>
+              <divide/>
+              <apply>
+                <times/>
+                <ci> F_fat </ci>
+                <apply>
+                  <divide/>
+                  <ci> Q_fat </ci>
+                  <ci> Fat </ci>
+                </apply>
+              </apply>
+              <ci> PC_fat </ci>
+            </apply>
+          </math>
+        </kineticLaw>
+      </reaction>
+      <reaction id="_J21" reversible="true">
+        <listOfReactants>
+          <speciesReference species="Q_kidney" stoichiometry="1" constant="true"/>
+        </listOfReactants>
+        <listOfProducts>
+          <speciesReference species="Q_ven" stoichiometry="1" constant="true"/>
+        </listOfProducts>
+        <kineticLaw>
+          <math xmlns="http://www.w3.org/1998/Math/MathML">
+            <apply>
+              <times/>
+              <apply>
+                <plus/>
+                <ci> F_kidney </ci>
+                <apply>
+                  <times/>
+                  <apply>
+                    <minus/>
+                    <cn type="integer"> 1 </cn>
+                    <ci> a_Fpp </ci>
+                  </apply>
+                  <ci> F_pp </ci>
+                </apply>
+                <apply>
+                  <times/>
+                  <apply>
+                    <minus/>
+                    <cn type="integer"> 1 </cn>
+                    <ci> a_Fs </ci>
+                  </apply>
+                  <ci> F_skin </ci>
+                </apply>
+              </apply>
+              <apply>
+                <divide/>
+                <apply>
+                  <divide/>
+                  <ci> Q_kidney </ci>
+                  <ci> Kidney </ci>
+                </apply>
+                <ci> PC_kidney </ci>
+              </apply>
+            </apply>
+          </math>
+        </kineticLaw>
+      </reaction>
+      <reaction id="_J22" reversible="true">
+        <listOfReactants>
+          <speciesReference species="Q_poor" stoichiometry="1" constant="true"/>
+        </listOfReactants>
+        <listOfProducts>
+          <speciesReference species="Q_ven" stoichiometry="1" constant="true"/>
+        </listOfProducts>
+        <kineticLaw>
+          <math xmlns="http://www.w3.org/1998/Math/MathML">
+            <apply>
+              <divide/>
+              <apply>
+                <times/>
+                <ci> a_Fpp </ci>
+                <ci> F_pp </ci>
+                <apply>
+                  <divide/>
+                  <ci> Q_poor </ci>
+                  <ci> Poor </ci>
+                </apply>
+              </apply>
+              <ci> PC_pp </ci>
+            </apply>
+          </math>
+        </kineticLaw>
+      </reaction>
+      <reaction id="_J23" reversible="true">
+        <listOfReactants>
+          <speciesReference species="Q_skin" stoichiometry="1" constant="true"/>
+        </listOfReactants>
+        <listOfProducts>
+          <speciesReference species="Q_ven" stoichiometry="1" constant="true"/>
+        </listOfProducts>
+        <kineticLaw>
+          <math xmlns="http://www.w3.org/1998/Math/MathML">
+            <apply>
+              <divide/>
+              <apply>
+                <times/>
+                <ci> a_Fs </ci>
+                <ci> F_skin </ci>
+                <apply>
+                  <divide/>
+                  <ci> Q_skin </ci>
+                  <ci> Skin </ci>
+                </apply>
+              </apply>
+              <ci> PC_skin </ci>
+            </apply>
+          </math>
+        </kineticLaw>
+      </reaction>
+      <reaction id="_J24" reversible="true">
+        <listOfReactants>
+          <speciesReference species="Q_gonads" stoichiometry="1" constant="true"/>
+        </listOfReactants>
+        <listOfProducts>
+          <speciesReference species="Q_liver" stoichiometry="1" constant="true"/>
+        </listOfProducts>
+        <kineticLaw>
+          <math xmlns="http://www.w3.org/1998/Math/MathML">
+            <apply>
+              <divide/>
+              <apply>
+                <times/>
+                <ci> F_gonads </ci>
+                <apply>
+                  <divide/>
+                  <ci> Q_gonads </ci>
+                  <ci> Gonads </ci>
+                </apply>
+              </apply>
+              <ci> PC_gonads </ci>
+            </apply>
+          </math>
+        </kineticLaw>
+      </reaction>
+      <reaction id="_J25" reversible="true">
+        <listOfReactants>
+          <speciesReference species="Q_rich" stoichiometry="1" constant="true"/>
+        </listOfReactants>
+        <listOfProducts>
+          <speciesReference species="Q_liver" stoichiometry="1" constant="true"/>
+        </listOfProducts>
+        <kineticLaw>
+          <math xmlns="http://www.w3.org/1998/Math/MathML">
+            <apply>
+              <divide/>
+              <apply>
+                <times/>
+                <ci> F_rp </ci>
+                <apply>
+                  <divide/>
+                  <ci> Q_rich </ci>
+                  <ci> Rich </ci>
+                </apply>
+              </apply>
+              <ci> PC_rp </ci>
+            </apply>
+          </math>
+        </kineticLaw>
+      </reaction>
+      <reaction id="_J26" reversible="true">
+        <listOfReactants>
+          <speciesReference species="Q_poor" stoichiometry="1" constant="true"/>
+        </listOfReactants>
+        <listOfProducts>
+          <speciesReference species="Q_kidney" stoichiometry="1" constant="true"/>
+        </listOfProducts>
+        <kineticLaw>
+          <math xmlns="http://www.w3.org/1998/Math/MathML">
+            <apply>
+              <divide/>
+              <apply>
+                <times/>
+                <apply>
+                  <minus/>
+                  <cn type="integer"> 1 </cn>
+                  <ci> a_Fpp </ci>
+                </apply>
+                <ci> F_pp </ci>
+                <apply>
+                  <divide/>
+                  <ci> Q_poor </ci>
+                  <ci> Poor </ci>
+                </apply>
+              </apply>
+              <ci> PC_pp </ci>
+            </apply>
+          </math>
+        </kineticLaw>
+      </reaction>
+      <reaction id="_J27" reversible="true">
+        <listOfReactants>
+          <speciesReference species="Q_skin" stoichiometry="1" constant="true"/>
+        </listOfReactants>
+        <listOfProducts>
+          <speciesReference species="Q_kidney" stoichiometry="1" constant="true"/>
+        </listOfProducts>
+        <kineticLaw>
+          <math xmlns="http://www.w3.org/1998/Math/MathML">
+            <apply>
+              <divide/>
+              <apply>
+                <times/>
+                <apply>
+                  <minus/>
+                  <cn type="integer"> 1 </cn>
+                  <ci> a_Fs </ci>
+                </apply>
+                <ci> F_skin </ci>
+                <apply>
+                  <divide/>
+                  <ci> Q_skin </ci>
+                  <ci> Skin </ci>
+                </apply>
+              </apply>
+              <ci> PC_skin </ci>
+            </apply>
+          </math>
+        </kineticLaw>
+      </reaction>
+      <reaction id="_J28" reversible="true">
+        <listOfReactants>
+          <speciesReference species="Q_ven" stoichiometry="1" constant="true"/>
+        </listOfReactants>
+        <listOfProducts>
+          <speciesReference species="Q_met_plasma" stoichiometry="1" constant="true"/>
+        </listOfProducts>
+        <kineticLaw>
+          <math xmlns="http://www.w3.org/1998/Math/MathML">
+            <apply>
+              <times/>
+              <ci> rate_plasma_sc </ci>
+              <ci> Q_ven </ci>
+            </apply>
+          </math>
+        </kineticLaw>
+      </reaction>
+      <reaction id="_J29" reversible="true">
+        <listOfReactants>
+          <speciesReference species="Q_liver" stoichiometry="1" constant="true"/>
+        </listOfReactants>
+        <listOfProducts>
+          <speciesReference species="Q_met_liver" stoichiometry="1" constant="true"/>
+        </listOfProducts>
+        <kineticLaw>
+          <math xmlns="http://www.w3.org/1998/Math/MathML">
+            <apply>
+              <divide/>
+              <apply>
+                <times/>
+                <ci> Cl_liver_sc </ci>
+                <apply>
+                  <divide/>
+                  <ci> Q_liver </ci>
+                  <ci> Liver </ci>
+                </apply>
+              </apply>
+              <ci> PC_liver </ci>
+            </apply>
+          </math>
+        </kineticLaw>
+      </reaction>
+    </listOfReactions>
+  </model>
+</sbml>
